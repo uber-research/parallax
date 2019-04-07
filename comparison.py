@@ -316,11 +316,16 @@ def select_embeddings():
                 embeddings_1[key]['coords'] - embeddings_2[key]['coords']))
 
         difference_slider._callbacks['value'] = []
+        old_end = difference_slider.end
         if max_difference > 0:
             difference_slider.end = max_difference
         if len(common_keys) > 0:
-            difference_slider.update(
-                value=(0, min(max_difference, difference_slider.value[1])))
+            if difference_slider.value[1] == old_end:
+                difference_slider.update(
+                    value=(0, difference_slider.end))
+            else:
+                difference_slider.update(
+                    value=(0, min(max_difference, difference_slider.value[1])))
         difference_slider.on_change('value', update)
 
         for key in common_keys:
