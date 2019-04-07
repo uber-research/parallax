@@ -162,7 +162,7 @@ for attribute in metadata_type_1:
 
 data_filters_title = Div(text="<strong>Data Filters</strong>")
 
-difference_slider = RangeSlider(start=0, end=2, value=(0, float('inf')), step=0.01, title='Difference Filter')
+difference_slider = RangeSlider(start=0, end=2, value=(0, 2), step=0.01, title='Difference Filter')
 slope_slider = RangeSlider(start=-100, end=100, value=(-100, +100), step=0.01, title='Slope Filter')
 
 
@@ -177,7 +177,7 @@ def build_data_filter():
     formula_cf = TextInput(value='', placeholder="formula")
     compare_cf = Select(options=[('greater', '>'),
                                  ('greater_equal', '≥'),
-                                 ('close', '~'),
+                                 ('equal', '='),
                                  ('less_equal', '≤'),
                                  ('less', '<'),
                                  ],
@@ -309,6 +309,20 @@ def select_embeddings():
 
         embeddings = {}
         common_keys = set(embeddings_1.keys()).intersection(set(embeddings_2.keys()))
+
+        max_difference = 0
+        for key in common_keys:
+            max_difference = max(max_difference, np.linalg.norm(
+                embeddings_1[key]['coords'] - embeddings_2[key]['coords']))
+
+        difference_slider._callbacks['value'] = []
+        if max_difference > 0:
+            difference_slider.end = max_difference
+        if len(common_keys) > 0:
+            difference_slider.update(
+                value=(0, min(max_difference, difference_slider.value[1])))
+        difference_slider.on_change('value', update)
+
         for key in common_keys:
 
             distance = np.linalg.norm(embeddings_1[key]['coords'] - embeddings_2[key]['coords'])
@@ -380,15 +394,10 @@ def update(attr, old, new):
         legend=[selected_dataset_2] * len(labels)
     )
 
-    line_min = min(min(x0), min(y0), min(x1), min(y1))
-    line_max = max(max(x0), max(y0), max(x1), max(y1))
-    line_source.data = dict(x=[line_min, line_max], y=[line_min, line_max])
-
-    difference_slider._callbacks['value'] = []
-    difference_slider.end = max_difference
-    difference_slider.update(value=(min(max_difference, difference_slider.value[0]),
-                                    min(max_difference, difference_slider.value[1])))
-    difference_slider.on_change('value', update)
+    if len(embeddings) > 0:
+        line_min = min(min(x0), min(y0), min(x1), min(y1))
+        line_max = max(max(x0), max(y0), max(x1), max(y1))
+        line_source.data = dict(x=[line_min, line_max], y=[line_min, line_max])
 
 
 def update_dataset(attr, old, new):
