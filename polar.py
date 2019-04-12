@@ -1,13 +1,21 @@
+# Copyright (c) 2019 Uber Technologies, Inc.
+#
+# Licensed under the Uber Non-Commercial License (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at the root directory of this project.
+#
+# See the License for the specific language governing permissions and
+# limitations under the License.
 import argparse
 import json
 import re
 import sys
 
-import numpy as np
 import bokeh
+import numpy as np
 from bokeh.io import curdoc
 from bokeh.layouts import layout, widgetbox
-from bokeh.models import ColumnDataSource, Div
+from bokeh.models import Div
 from bokeh.models.widgets import Slider, Select, TextInput
 from bokeh.plotting import figure
 

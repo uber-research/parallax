@@ -1,3 +1,11 @@
+# Copyright (c) 2019 Uber Technologies, Inc.
+#
+# Licensed under the Uber Non-Commercial License (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at the root directory of this project.
+#
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # coding=utf-8
 import time
 
@@ -5,9 +13,6 @@ import numpy as np
 from scipy.spatial.distance import cdist
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
-
-# from modules.data_manager import DataManager
-# from globals import default_test_datasets, default_embeddings_top_k
 
 
 def low_dimensional_projection(embeddings, mode="explicit", metric="cosine", axes_vectors=None, n_axes=2):
