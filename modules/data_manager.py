@@ -30,8 +30,9 @@ class DataManager(object):
         self.embeddings_data = {}
         for dataset in datasets:
             print('Loading dataset', dataset['name'])
-            self.embeddings_data[dataset['name']] = self._load_dataset(dataset["embeddings_file"],
-                                                                       dataset.get("metadata_file", None), top_k)
+            self.embeddings_data[dataset['name']] = self._load_dataset(
+                dataset["embeddings_file"],
+                dataset.get("metadata_file", None), top_k)
             print()
 
         self.dataset_ids = [dataset['name'] for dataset in datasets]
@@ -43,18 +44,39 @@ class DataManager(object):
         embeddings_metadata = {}
         embeddings_metadata_type = {}
         embeddings_metadata_domain = {}
+        embedding_size = 0
 
-        with open(embeddings_file, "r", encoding="utf-8") as data:
-            for idx, datum in enumerate(data):
+        # collect embeddings size assuming the first line is correct
+        with open(embeddings_file, 'r', encoding='utf-8') as f:
+            found_line = False
+            while not found_line:
+                line = f.readline()
+                if line:
+                    embedding_size = len(line.split()) - 1
+                    found_line = True
 
-                if top_k != -1 and idx >= top_k:
+        # collect embeddings
+        with open(embeddings_file, 'r', encoding='utf-8') as f:
+            for line_number, line in enumerate(f):
+                if top_k != -1 and line_number >= top_k:
                     break
-
-                l = datum.split(" ")
-                embedding = str(l[0])
-                embeddings[embedding] = np.array([float(val) for val in l[1:]])
-
-            print("{} embeddings loaded in memory from file: {}".format(len(embeddings), embeddings_file))
+                if line:
+                    try:
+                        split = line.split()
+                        if len(split) != embedding_size + 1:
+                            raise ValueError
+                        word = split[0]
+                        embedding = np.array(
+                            [float(val) for val in split[-embedding_size:]]
+                        )
+                        embeddings[word] = embedding
+                    except ValueError:
+                        print(
+                            'Line {} in the GloVe file {} is malformed, '
+                            'skipping it'.format(
+                                line_number, embeddings_file
+                            )
+                        )
 
         if metadata_file is not None:
             try:
@@ -66,7 +88,8 @@ class DataManager(object):
                     # init domain
                     for attribute, attribute_type in embeddings_metadata_type.items():
                         if attribute_type == "numerical":
-                            embeddings_metadata_domain[attribute] = [1e12, -1e12]
+                            embeddings_metadata_domain[attribute] = [1e12,
+                                                                     -1e12]
                         elif attribute_type == "categorical":
                             embeddings_metadata_domain[attribute] = set()
                         elif attribute_type == "boolean":
@@ -74,34 +97,47 @@ class DataManager(object):
                         elif attribute_type == "set":
                             embeddings_metadata_domain[attribute] = set()
                         else:
-                            print("attribute type: {} not supported yet".format(attribute_type))
+                            print("attribute type: {} not supported yet".format(
+                                attribute_type))
 
                     for embedding in embeddings:
                         if embedding in metadata:
                             embeddings_metadata[embedding] = metadata[embedding]
                             # update domain
                             for attribute, value in metadata[embedding].items():
-                                attribute_type = embeddings_metadata_type[attribute]
+                                attribute_type = embeddings_metadata_type[
+                                    attribute]
                                 if attribute_type == "numerical":
                                     embeddings_metadata_domain[attribute] = [
-                                        min(embeddings_metadata_domain[attribute][0], value),
-                                        max(embeddings_metadata_domain[attribute][1], value)
+                                        min(embeddings_metadata_domain[
+                                                attribute][0], value),
+                                        max(embeddings_metadata_domain[
+                                                attribute][1], value)
                                     ]
                                 elif attribute_type == "categorical":
-                                    embeddings_metadata_domain[attribute].add(value)
+                                    embeddings_metadata_domain[attribute].add(
+                                        value)
                                 elif attribute_type == "boolean":
-                                    embeddings_metadata_domain[attribute].add(value)
+                                    embeddings_metadata_domain[attribute].add(
+                                        value)
                                 elif attribute_type == "set":
                                     value = set(value)
-                                    embeddings_metadata[embedding][attribute] = value
-                                    embeddings_metadata_domain[attribute].update(value)
+                                    embeddings_metadata[embedding][
+                                        attribute] = value
+                                    embeddings_metadata_domain[
+                                        attribute].update(value)
                                 else:
-                                    print("Metadata attribute type not supported")
+                                    print(
+                                        "Metadata attribute type not supported")
                         else:
-                            print("Cannot find the metadata of embedding {} in file: {}".format(embedding, metadata_file))
+                            print(
+                                "Cannot find the metadata of embedding {} in file: {}".format(
+                                    embedding, metadata_file))
 
-                    print("Metadata of {} embeddings loaded in memory from file: {}".format(len(embeddings_metadata),
-                                                                                            metadata_file))
+                    print(
+                        "Metadata of {} embeddings loaded in memory from file: {}".format(
+                            len(embeddings_metadata),
+                            metadata_file))
                     print('Metadata type:', embeddings_metadata_type)
                     print('Metadata domain:', embeddings_metadata_domain)
             except FileNotFoundError:
