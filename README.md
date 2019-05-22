@@ -4,7 +4,21 @@ Parallax
 Parallax is a tool for visualizing embeddings. It allows you to visualize the embedding space selecting explicitly the axis through algebraic formulas on the embeddings (like `king-man+woman`) and highlight specific items in the embedding space.
 It also supports implicit axes via PCA and t-SNE.
 There are three main views: the cartesian view that enables comparison on two user defined dimensions of variability (defined through formulae on embeddings), the comparison view that is similar to the cartesian but plots points from two datasets at the same time, and the polar view, where the user can define multiple dimensions of variability and show how a certain number of items compare on those dimensions.
-For a thorough description please read the paper: https://www.overleaf.com/read/dgkgzkrcbdcq
+
+This repository contains the code used to obtain the visualization in:
+Piero Molino, Yang Wang, Jiwei Zhang. Parallax: Visualizing and Understanding the Semantics of Embedding Spaces via Algebraic Formulae. ACL 2019.
+
+And extended version of the paper that describes thouroughly the motivation and capabilities of Parallax is available on [arXiv](http://arxiv.org)
+
+If you end up using the tool for you research, please use the following BibTex for citing Parallax:
+```
+@inproceedings{
+  author = {Piero Molino, Yang Wang, Jiwei Zhang},
+  booktitle = {ACL},
+  title = {Parallax: Visualizing and Understanding the Semantics of Embedding Spaces via Algebraic Formulae},
+  year = {2019},
+}
+```
 
 ## Set Up Environment (using virtualenv is not required)
 ```
@@ -14,7 +28,7 @@ pip install -r requirements.txt
 ```
 
 ## Download example data
-In order to replicate the experiments in our paper, you can download the files in:
+In order to replicate the visualizations in our paper, you can download the files in:
 ```
 https://drive.google.com/open?id=19EYhNu1Q-tRMKrGd05VF9nRVVbKEM-u3
 ```
@@ -23,20 +37,26 @@ The Google Drive folder contains the Gigaword+Wikipedia and Twitter embeddings t
 
 
 ## Run
+To obtain the cartesian view run:
 ```
 bokeh serve --show cartesian.py
 ```
+
+To obtain the comaprison view run:
 ```
 bokeh serve --show comparison.py
 ```
+
+To obtain the polar view run:
 ```
 bokeh serve --show polar.py
 ```
+
 You can add additional arguments like this:
 ```
 bokeh serve --show cartesian.py --args -k 20000 -l -d '...'
 ```
-- `-d` or `--datasets` loads custom embeddings. It accepts a JSON string containing a list of dictionaries. Each dictionary should contain a name field, an embedding_file field and a metadata_file field.  For example: `[{"name": "wikipedia", "embedding_file": "...", "metadata_file": "..."}, {"name": "twitter", "embedding_file": "...", "metadata_file": "..."}]` As it is a JSON string passed as a parameter, do not forget to escape the double quotes:
+- `-d` or `--datasets` loads custom embeddings. It accepts a JSON string containing a list of dictionaries. Each dictionary should contain a name field, an embedding_file field and a metadata_file field.  For example: `[{"name": "wikipedia", "embedding_file": "...", "metadata_file": "..."}, {"name": "twitter", "embedding_file": "...", "metadata_file": "..."}]`. `name` is just a mnemonic identifier that is assigned to the dataset so that you can select it from the interface, `embedding_file` is the path to the file contaning the embeddings, `metadata_file` is the path that contains additional information to filter out the visualization. As it is a JSON string passed as a parameter, do not forget to escape the double quotes:
 ```
 bokeh serve --show cartesian.py --args "[{\"name\": \"wikipedia\", \"embedding_file\": \"...\", \"metadata_file\": \"...\"}, {\"name\": \"twitter\", \"embedding_file\": \"...\", \"metadata_file\": \"...\"}]""
 ```
@@ -51,7 +71,7 @@ label1 value1_1 value1_2 ... value1_n
 label2 value2_1 value2_2 ... value2_n
 ...
 ```
-while the metadata file is a json file that looks like this:
+while the metadata file is a json file that looks like the following:
 ```
 {
   "types": {
@@ -62,12 +82,13 @@ while the metadata file is a json file that looks like this:
   "values": {
     "overtones": {"length": 9, "pos tag": ["Noun"], "stopword": false},
     "grizzly": {"length": 7, "pos tag": ["Adjective Sat", "Noun"], "stopword": false},
+    ...
   }
 }
 ```
-You can define your own type names, the supported types are boolean, numerical, categorical and set.
+You can define your own type names, the supported data types are `boolean`, `numerical`, `categorical` and `set`.
 Each key in the values dictionary is one label in the embeddings file and the associated dict has one key for each type name in the types dictionary and the actual value for that specific label.
-More in general:
+More in general, this is the format of the metadata file:
 ```
 {
   "types": {
@@ -78,13 +99,16 @@ More in general:
   "values": {
     "label_1": {"type_name_1": value, "type_name_2": value, ...},
     "label_2": {"type_name_1": value, "type_name_2": value, ...},
+    ...
   }
 }
 ```
 
-#### Little caveat
-Formulae are evaluated as pieces of python code through the `eval()` function.
-Because of that, there are some limitations regarding the labels allowed for the embeddings (the same rules that apply for python3 variable naming):
+#### Caveat
+This code is supposed to be a prototype, we do not suggest deploying this code directly in the wild, but we suggest to use it on a personal machine as a tool.
+In particular formulae are evaluated as pieces of python code through the `eval()` function.
+This may allow the execution of arbitrary python code, potentially malicious one, so we suggest not to expose a running Parallax server to external users.
+Because of the use of `eval()` there are also some limitations regarding the labels allowed for the embeddings (the same rules that apply for python3 variable naming):
 - Variables names must start with a letter or an underscore, such as:
    - _underscore
    - underscore_
@@ -96,13 +120,14 @@ Because of that, there are some limitations regarding the labels allowed for the
    - case_sensitive, CASE_SENSITIVE, and Case_Sensitive are each a different variable.
 - Variable names must not be one of python protected keywords
    - and, as, assert, break, class, continue, def, del, elif, else, except, exec, finally, for, from, global, if, import, in, is, lambda, not, or, pass, print, raise, return, try, while, with, yield
+- Variable names can contain unicode characters as long as they are letters (http://docs.python.org/3.3/reference/lexical_analysis.html#identifiers)
 Lables that don't respect those rules will simply not be resolved in the formulae.
 There could be solutions to this, we are already working on one.
 
 ## To Do
 - display errors in the UI rather than in the console prints (there's no simple way in bokeh to do it)
 - add clustering of points
-- solve the issue that embedding labels have to conform to python variable naming conventions.
+- solve the issue that embedding labels have to conform to python variable naming conventions
 
 ## Known Issues
 - t-SNE is slow to compute, should require a loading UI.
