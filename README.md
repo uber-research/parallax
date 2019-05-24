@@ -1,6 +1,7 @@
 Parallax
 ========
 
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_screenshot.png)
 
 Parallax is a tool for visualizing embeddings. It allows you to visualize the embedding space selecting explicitly the axis through algebraic formulas on the embeddings (like `king-man+woman`) and highlight specific items in the embedding space.
 It also supports implicit axes via PCA and t-SNE.
@@ -10,6 +11,22 @@ This repository contains the code used to obtain the visualization in:
 Piero Molino, Yang Wang, Jiwei Zhang. Parallax: Visualizing and Understanding the Semantics of Embedding Spaces via Algebraic Formulae. ACL 2019.
 
 And extended version of the paper that describes thouroughly the motivation and capabilities of Parallax is available on [arXiv](http://arxiv.org)
+
+Here are some samples visualizations you can obtain with the tool. If you are interested in the details and motivation for those visualizations, please read the extended paper.
+
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_man_woman_preofessions_big.png)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_man_woman_preofessions_comparison.png)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_google_microsoft_big.png)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_google_microsoft_orth_combined.png)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_tsne_google_microsoft_combined.png)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_suit_combined.png)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_apple_combined.png)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_polar_countries_food_5.png)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_polar_countries_food_5_inv.png)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_king-man_vs_vs_woman.png)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_italy-france_vs_paris.png)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_king_vs_king_c.png)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_obama_vs_obama_place_birth.png)
 
 If you end up using the tool for you research, please use the following BibTex for citing Parallax:
 ```
