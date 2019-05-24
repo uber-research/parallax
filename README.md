@@ -1,7 +1,7 @@
 Parallax
 ========
 
-![parallax user interface](../img/parallax_screenshot.png?raw=true)
+![parallax user interface](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_screenshot.png)
 
 Parallax is a tool for visualizing embeddings. It allows you to visualize the embedding space selecting explicitly the axis through algebraic formulas on the embeddings (like `king-man+woman`) and highlight specific items in the embedding space.
 It also supports implicit axes via PCA and t-SNE.
@@ -14,19 +14,19 @@ And extended version of the paper that describes thouroughly the motivation and 
 
 Here are some samples visualizations you can obtain with the tool. If you are interested in the details and motivation for those visualizations, please read the extended paper.
 
-![parallax man woman professions](../img/parallax_man_woman_professions_big.png?raw=true)
-![parallax man woman professions comparison](../img/parallax_man_woman_professions_comparison.png?raw=true)
-![parallax google microsoft](../img/parallax_google_microsoft_big.png?raw=true)
-![parallax google microsoft orthonormal](../img/parallax_google_microsoft_orth_combined.png?raw=true)
-![parallax tsne google microsoft combined](../img/parallax_tsne_google_microsoft_combined.png?raw=true)
-![parallax suit combined](../img/parallax_suit_combined.png?raw=true)
-![parallax apple combined](../img/parallax_apple_combined.png?raw=true)
-![parallax polar countries food 5](../img/parallax_polar_countries_food_5.png?raw=true)
-![parallax polar countries food 5 inverse](../img/parallax_polar_countries_food_5_inv.png?raw=true)
-![parallax king-man vs woman](../img/parallax_king-man_vs_woman.png?raw=true)
-![parallax italy-france vs paris](../img/parallax_italy-france_vs_paris.png?raw=true)
-![parallax king vs king_c](../img/parallax_king_vs_king_c.png?raw=true)
-![parallax obama vs obama place birth](../img/parallax_obama_vs_obama_place_birth.png?raw=true)
+![parallax man woman professions](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_man_woman_professions_big.png)
+![parallax man woman professions comparison](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_man_woman_professions_comparison.png)
+![parallax google microsoft](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_google_microsoft_big.png)
+![parallax google microsoft orthonormal](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_google_microsoft_orth_combined.png)
+![parallax tsne google microsoft combined](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_tsne_google_microsoft_combined.png)
+![parallax suit combined](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_suit_combined.png)
+![parallax apple combined](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_apple_combined.png)
+![parallax polar countries food 5](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_polar_countries_food_5.png)
+![parallax polar countries food 5 inverse](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_polar_countries_food_5_inv.png)
+![parallax king-man vs woman](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_king-man_vs_woman.png)
+![parallax italy-france vs paris](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_italy-france_vs_paris.png)
+![parallax king vs king_c](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_king_vs_king_c.png)
+![parallax obama vs obama place birth](https://raw.githubusercontent.com/uber-research/parallax/master//img/parallax_obama_vs_obama_place_birth.png)
 
 If you end up using the tool for you research, please use the following BibTex for citing Parallax:
 ```
