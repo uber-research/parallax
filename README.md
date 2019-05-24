@@ -1,6 +1,7 @@
 Parallax
 ========
 
+
 Parallax is a tool for visualizing embeddings. It allows you to visualize the embedding space selecting explicitly the axis through algebraic formulas on the embeddings (like `king-man+woman`) and highlight specific items in the embedding space.
 It also supports implicit axes via PCA and t-SNE.
 There are three main views: the cartesian view that enables comparison on two user defined dimensions of variability (defined through formulae on embeddings), the comparison view that is similar to the cartesian but plots points from two datasets at the same time, and the polar view, where the user can define multiple dimensions of variability and show how a certain number of items compare on those dimensions.
@@ -103,6 +104,22 @@ More in general, this is the format of the metadata file:
   }
 }
 ```
+
+## User Interface
+
+### Cartesian View
+
+If the explicit axis methos is selected, the user can specify formulae as axes of projection.
+Those formulare have embeddings labels as atoms and can contain any mathematical operator interpretable by python.
+Additional operators provided are
+- `avg(word[, word, ...])` for computing the average of a list of embeddings
+- `nqnot(words, word_to_negate)` which implements the quantum negation operator described in [Dominic Widdows, Orthogonal Negation in Vector Spaces for Modelling
+Word-Meanings and Document Retrieval, ACL 2003](https://pdfs.semanticscholar.org/98f6/0fc40d6350ba809d5a0e7485540f7667e51a.pdf) 
+
+
+### Comparison View
+
+### Polar view
 
 #### Caveat
 This code is supposed to be a prototype, we do not suggest deploying this code directly in the wild, but we suggest to use it on a personal machine as a tool.
