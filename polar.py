@@ -212,4 +212,4 @@ controls = [dataset, measure, axes, items, visualization_title, opacity]
 control_panel = widgetbox(children=controls)
 
 curdoc().add_root(layout([[plot, control_panel]]))
-curdoc().title = "Polar View"
+curdoc().title = "Polar"

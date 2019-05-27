@@ -649,4 +649,4 @@ l = layout(
 update(None, None, None)  # initial load of the data
 
 curdoc().add_root(l)
-curdoc().title = "Cartesian"
+curdoc().title = "Comparison"
