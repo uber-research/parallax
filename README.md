@@ -11,7 +11,7 @@ There are three main views: the cartesian view that enables comparison on two us
 This repository contains the code used to obtain the visualization in:
 Piero Molino, Yang Wang, Jiwei Zhang. Parallax: Visualizing and Understanding the Semantics of Embedding Spaces via Algebraic Formulae. ACL 2019.
 
-And extended version of the paper that describes thouroughly the motivation and capabilities of Parallax is available on [arXiv](http://arxiv.org)
+And extended version of the paper that describes thoroughly the motivation and capabilities of Parallax is available on [arXiv](http://arxiv.org)
 
 If you use the tool for you research, please use the following BibTex for citing Parallax:
 ```
@@ -66,7 +66,7 @@ To obtain the cartesian view run:
 bokeh serve --show cartesian.py
 ```
 
-To obtain the comaprison view run:
+To obtain the comparison view run:
 ```
 bokeh serve --show comparison.py
 ```
@@ -80,7 +80,7 @@ You can add additional arguments like this:
 ```
 bokeh serve --show cartesian.py --args -k 20000 -l -d '...'
 ```
-- `-d` or `--datasets` loads custom embeddings. It accepts a JSON string containing a list of dictionaries. Each dictionary should contain a name field, an embedding_file field and a metadata_file field.  For example: `[{"name": "wikipedia", "embedding_file": "...", "metadata_file": "..."}, {"name": "twitter", "embedding_file": "...", "metadata_file": "..."}]`. `name` is just a mnemonic identifier that is assigned to the dataset so that you can select it from the interface, `embedding_file` is the path to the file contaning the embeddings, `metadata_file` is the path that contains additional information to filter out the visualization. As it is a JSON string passed as a parameter, do not forget to escape the double quotes:
+- `-d` or `--datasets` loads custom embeddings. It accepts a JSON string containing a list of dictionaries. Each dictionary should contain a name field, an embedding_file field and a metadata_file field.  For example: `[{"name": "wikipedia", "embedding_file": "...", "metadata_file": "..."}, {"name": "twitter", "embedding_file": "...", "metadata_file": "..."}]`. `name` is just a mnemonic identifier that is assigned to the dataset so that you can select it from the interface, `embedding_file` is the path to the file containing the embeddings, `metadata_file` is the path that contains additional information to filter out the visualization. As it is a JSON string passed as a parameter, do not forget to escape the double quotes:
 ```
 bokeh serve --show cartesian.py --args "[{\"name\": \"wikipedia\", \"embedding_file\": \"...\", \"metadata_file\": \"...\"}, {\"name\": \"twitter\", \"embedding_file\": \"...\", \"metadata_file\": \"...\"}]""
 ```
@@ -141,7 +141,7 @@ The names that will appear in the dropdown menu are the names specified in the J
 
 If the __Explicit__ projection method is selected, the user can specify formulae as axes of projection (__Axis 1__ and __Axis 2__ fields.
 
-Those formulare have embeddings labels as atoms and can contain any mathematical operator interpretable by python.
+Those formulae have embeddings labels as atoms and can contain any mathematical operator interpretable by python.
 Additional operators provided are
 - `avg(word[, word, ...])` for computing the average of a list of embeddings
 - `nqnot(words, word_to_negate)` which implements the quantum negation operator described in [Dominic Widdows, Orthogonal Negation in Vector Spaces for Modelling
@@ -175,7 +175,7 @@ THe __Visualization__ section of the panel lets you configure how the datapoints
 You can set the opacity of the points and the size of the axes labels.
 If the `--labels` parameter is used, additional controls are available.
 You can also decide which labels to visualize, if the ones for all the items, if only for the items specified in the __Items__ field or for none of them.
-The size of the lables of each point, its opacity and the opacity of the lables of the items listed in the __Items__ field are also modifieble.
+The opacity of each datapoint and the size and opacity of the labels of the items listed in the __Items__ field are also modifiable.
 
 The __Metadata filters__ sections allow you to select a subset of the points to visualize according to their properties.
 
@@ -183,13 +183,13 @@ The __Metadata filters__ sections allow you to select a subset of the points to 
 
 The __rank slice__ control is always present.
 It allows for selecting the points depending on the ordering they have in the original embedding file.
-This assumes that the ordering matters: in many cases, like for instance in the case of the pretrained GloVe embeddings, the ordering reflects the frequency, so you can select, for instance to filter out the 100 most frequent words and the visualize only the 5000 most frquent words and to filter out the top 100 by moving the handles.
+This assumes that the ordering matters: in many cases, like for instance in the case of the pretrained GloVe embeddings, the ordering reflects the frequency, so you can select, for instance to filter out the 100 most frequent words and the visualize only the 5000 most frequent words and to filter out the top 100 by moving the handles.
 
 The other filters depend entirely on the metadata file specified in the `--datasets` parameter.
-In this example each point has 3 attributes: lentgh (in characters), pos tag (the part of speech) and stopword are shown.
+In this example each point has 3 attributes: length (in characters), pos tag (the part of speech) and stopword are shown.
 Numerical properties like length have a two handle range control so that you can select the interval you want to keep, for instance you may want to visualize only points with associated labels longer than 4 characters.
-Categorial and set properies like pos tag (in this case shown as set, a the same word, in absence of the context it appears in can have multiple parts of speech associated with it, like the word 'cut' for instance) have a list of values you want to select, for isntance you can select to visualize only verbs and adjectives.
-Binary properties like stopword have a dropdown manu for you to select if you want to visualize only the points with a true value, false value or any of the two values.
+Categorial and set properties like pos tag (in this case shown as set, a the same word, in absence of the context it appears in can have multiple parts of speech associated with it, like the word 'cut' for instance) have a list of values you want to select, for instance you can select to visualize only verbs and adjectives.
+Binary properties like stopword have a dropdown menu for you to select if you want to visualize only the points with a true value, false value or any of the two values.
 
 THe __Data filters__ filters section allows you to select which points to visualize based on their embeddings, specifically their similarity or distance with respect to a formula.
 
@@ -204,11 +204,11 @@ If more than one data filter is specified, they are applied in __AND__ meaning a
 
 ### Comparison View
 
-THe control panel of the comparison view is really similar to the one of the cartesina view, with the following differences.
+THe control panel of the comparison view is really similar to the one of the cartesian view, with the following differences.
 
 ![parallax ui comparison](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_ui_comaprison.png)
 
-THis time you have to select two datasets among the ones specified in the JSON to compare.
+This time you have to select two datasets among the ones specified in the JSON to compare.
 
 Also two additional filters are now available for you in order to visualize only the lines with a slope within a certain range and the lines that describe pairs of points that are more distant than a specified amount among each other in the two datasets.
 
@@ -219,9 +219,9 @@ The polar view control panel is different from the previous two.
 ![parallax ui polar](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_ui_polar.png)
 
 As you can specify as many axes as you want and as many items as you want, the two __Axes__ and __Items__ fields both accept a variable number of formulae divided by semicolon.
-Note that this visualization may became hard to interpret if too many tiems are visualized at the same time on too many axes, so choose them wisely.
+Note that this visualization may became hard to interpret if too many items are visualized at the same time on too many axes, so choose them wisely.
 
-The only visualization parameter to modify in this case is the opacity of the poligons that describe each item.
+The only visualization parameter to modify in this case is the opacity of the polygons that describe each item.
 
 #### Caveats
 This code is supposed to be a prototype, we do not suggest deploying this code directly in the wild, but we suggest to use it on a personal machine as a tool.
@@ -257,3 +257,4 @@ There could be solutions to this, we are already working on one.
 
 ## Parallax v2
 We are already working on a v2 of parallax that will not be using Bokeh but deck.gl for much improved performance with webgl rendering of labels, much faster implementation of t-SNE and more streamlined process for loading data. Stay tuned and reach out if you want to contribute!
+
