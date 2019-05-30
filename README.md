@@ -11,7 +11,7 @@ There are three main views: the cartesian view that enables comparison on two us
 This repository contains the code used to obtain the visualization in:
 Piero Molino, Yang Wang, Jiwei Zhang. Parallax: Visualizing and Understanding the Semantics of Embedding Spaces via Algebraic Formulae. ACL 2019.
 
-And extended version of the paper that describes thoroughly the motivation and capabilities of Parallax is available on [arXiv](http://arxiv.org)
+And extended version of the paper that describes thoroughly the motivation and capabilities of Parallax is available on [arXiv](https://arxiv.org/abs/1905.12099)
 
 If you use the tool for you research, please use the following BibTex for citing Parallax:
 ```
