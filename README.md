@@ -206,7 +206,7 @@ If more than one data filter is specified, they are applied in __AND__ meaning a
 
 THe control panel of the comparison view is really similar to the one of the cartesian view, with the following differences.
 
-![parallax ui comparison](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_ui_comaprison.png)
+![parallax ui comparison](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_ui_comparison.png)
 
 This time you have to select two datasets among the ones specified in the JSON to compare.
 
