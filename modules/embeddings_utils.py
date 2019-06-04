@@ -15,7 +15,8 @@ from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 
 
-def low_dimensional_projection(embeddings, mode="explicit", metric="cosine", axes_vectors=None, n_axes=2):
+def low_dimensional_projection(embeddings, mode="explicit", metric="cosine",
+                               axes_vectors=None, n_axes=2, **kwargs):
     """
     projection_mode is one of the three ["pca", "tsne", "explicit"]
 
@@ -40,15 +41,16 @@ def low_dimensional_projection(embeddings, mode="explicit", metric="cosine", axe
         raise Exception("Invalid input parameters")
 
     if mode == "explicit":
-        return _explict_projection(embeddings, metric, axes_vectors)
+        return _explict_projection(embeddings, metric, axes_vectors, **kwargs)
     elif mode == "tsne":
-        return _tsne_projection(embeddings, metric, n_axes)
+        return _tsne_projection(embeddings, metric, n_axes, **kwargs)
     elif mode == "pca":
-        return _pca_projection(embeddings, n_axes)
+        return _pca_projection(embeddings, n_axes, **kwargs)
     else:
         raise Exception("invalid embedding projection_mode")
 
-def _explict_projection(embeddings, metric, axes_vectors):
+
+def _explict_projection(embeddings, metric, axes_vectors, **kwargs):
     embeddings_matrix = np.stack(embeddings.values())  # num_embeds x hidden
     axes_matrix = np.stack(axes_vectors)  # num_axes x hidden_dimension
 
@@ -56,33 +58,53 @@ def _explict_projection(embeddings, metric, axes_vectors):
     if metric == 'dot_product':
         projected_matrix = np.matmul(embeddings_matrix, axes_matrix.T)
     elif metric == 'cosine_distance':
-        projected_matrix = cdist(embeddings_matrix, axes_matrix, metric='cosine')
+        projected_matrix = cdist(embeddings_matrix, axes_matrix,
+                                 metric='cosine')
     elif metric == 'cosine_similarity':
-        projected_matrix = 1 - cdist(embeddings_matrix, axes_matrix, metric='cosine')
+        projected_matrix = 1 - cdist(embeddings_matrix, axes_matrix,
+                                     metric='cosine')
     else:
         projected_matrix = cdist(embeddings_matrix, axes_matrix, metric=metric)
 
-    projected_emebddings = {embedding_id: projected_matrix[i, :] for i, embedding_id in
+    projected_emebddings = {embedding_id: projected_matrix[i, :] for
+                            i, embedding_id in
                             enumerate(embeddings)}
     return projected_emebddings
 
 
-def _tsne_projection(embeddings, metric, n_axes):
+def _tsne_projection(embeddings, metric, n_axes, perplexity=30.0,
+                     early_exaggeration=12.0, learning_rate=200.0, n_iter=1000,
+                     n_iter_without_progress=300, min_grad_norm=1e-07,
+                     init='pca', method='barnes_hut', angle=0.5):
     if metric == 'cosine_distance' or metric == 'cosine_similarity':
         metric = 'cosine'
     # embeddings_matrix = np.stack(list(embeddings.values())[:rank_slice])  # min(num_embeds, top_k) x hidden
     embeddings_matrix = np.stack(embeddings.values())  # num_embeds x hidden
-    tsne = TSNE(n_components=n_axes, metric=metric, verbose=1, init='pca', perplexity=20, angle=0.75, n_iter=300)
+    tsne = TSNE(
+        n_components=n_axes,
+        metric=metric,
+        perplexity=perplexity,
+        early_exaggeration=early_exaggeration,
+        learning_rate=learning_rate,
+        n_iter=n_iter,
+        n_iter_without_progress=n_iter_without_progress,
+        min_grad_norm=min_grad_norm,
+        init=init,
+        method=method,
+        angle=angle,
+        verbose=1
+    )
     # TSNE doesn't have separate fit and transform, so ccan't be cached...
     start = time.time()
     projected_matrix = tsne.fit_transform(embeddings_matrix)
     print("Took {}s".format(time.time() - start))
-    projected_emebddings = {embedding_id: projected_matrix[i, :] for i, embedding_id in
+    projected_emebddings = {embedding_id: projected_matrix[i, :] for
+                            i, embedding_id in
                             enumerate(embeddings)}
     return projected_emebddings
 
 
-def _pca_projection(embeddings, n_axes):
+def _pca_projection(embeddings, n_axes, **kwargs):
     # the following line is much faster, but it's mathematically wrong
     # embeddings_matrix = np.stack(list(embeddings.values())[:rank_slice])  # min(num_embeds, top_k) x hidden
     embeddings_matrix = np.stack(embeddings.values())  # num_embeds x hidden
@@ -90,10 +112,10 @@ def _pca_projection(embeddings, n_axes):
     # this guy may me cached for efficiency, that's why I don;t do fit_transofrm
     pca.fit(embeddings_matrix)
     projected_matrix = pca.transform(embeddings_matrix)
-    projected_emebddings = {embedding_id: projected_matrix[i, :] for i, embedding_id in
+    projected_emebddings = {embedding_id: projected_matrix[i, :] for
+                            i, embedding_id in
                             enumerate(embeddings)}
     return projected_emebddings
-
 
 # if __name__ == '__main__':
 #     data_manager = DataManager(default_test_datasets, default_embeddings_top_k)

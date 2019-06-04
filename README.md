@@ -163,10 +163,17 @@ note that the variance on the filtered subset of data may be substantially diffe
 Also note that computing the PCA after filtering can be substantially faster, depending on the amount of items left after filtering.
 
 If the __t-SNE__ projection method is selected, the user can select how the filters (explained later) are applied, if before or after the projection and the measure the t-SNE algorithm is going to use.
+Consider that t-SNE is slow to compute and it may take minutes before the interface is updated, check the output on the console to make sure t-SNE is calculating.
 
 ![parallax ui tsne](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_ui_tsne.png)
 
 The same considerations regarding filtering before or after for PCA apply to the t-SNE case too.
+
+Additional parameters of the t-SNE algorithm are available for you to tweak:
+
+![parallax ui tsne additional parameters](https://raw.githubusercontent.com/uber-research/parallax/master/img/parallax_ui_tsne_additional_parameters.png)
+
+Those parameters map exactly to the [scikit-learn implementation](https://scikit-learn.org/stable/modules/generated/sklearn.manifold.TSNE.html), refer to it for further details.
 
 THe __Visualization__ section of the panel lets you configure how the datapoints are visualized in the plot.
 
@@ -247,7 +254,6 @@ There could be solutions to this, we are already working on one.
 - display errors in the UI rather than in the console prints (there's no simple way in bokeh to do it)
 - add clustering of points
 - solve the issue that embedding labels have to conform to python variable naming conventions
-- add additional parameters for t-SNE in the UI
 
 ## Known Issues
 - t-SNE is slow to compute, should require a loading UI.
