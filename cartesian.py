@@ -209,7 +209,7 @@ if args.labels:
         active=0)
     labels_font_size = Slider(title="Labels Font Size", value=8, start=8,
                               end=32)
-    labels_opacity = Slider(title="Lales Opacity", value=1, start=0, end=1,
+    labels_opacity = Slider(title="Labels Opacity", value=1, start=0, end=1,
                             step=0.01)
     labels_items_opacity = Slider(title="Item Labels Opacity", value=1, start=0,
                                   end=1, step=0.01)
