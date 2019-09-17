@@ -131,7 +131,11 @@ tsne_tab = Panel(child=column(measure_3, filtering_before_after_3, perplexity,
                               method, angle),
                  title="t-SNE")
 
-projection_tab_panel = Tabs(tabs=[explicit_tab, pca_tab, tsne_tab])
+filtering_before_after_4 = RadioButtonGroup(
+    labels=["Filter before projection", "Filter after projection"], active=0)
+umap_tab = Panel(child=filtering_before_after_4, title="UMAP")
+
+projection_tab_panel = Tabs(tabs=[explicit_tab, pca_tab, tsne_tab, umap_tab])
 
 items = TextInput(title='Items Formulae (separated by ";")',
                   placeholder="formula; formula; ...")
@@ -282,7 +286,7 @@ def select_embeddings():
             formulae = None
             pre_filtering = filtering_before_after_2.active == 0
             post_filtering = filtering_before_after_2.active == 1
-        else:  # if projection_tab_panel.active == 2:  # tsne
+        elif projection_tab_panel.active == 2:  # tsne
             mode = 'tsne'
             metric = measure_3.value
             formulae = None
@@ -298,6 +302,13 @@ def select_embeddings():
             additional_arguments['init'] = init.value
             additional_arguments['method'] = method.value
             additional_arguments['angle'] = float(angle.value)
+        else: 
+            mode = 'umap'
+            metric = None
+            formulae = None
+            pre_filtering = filtering_before_after_4.active == 0
+            post_filtering = filtering_before_after_4.active == 1
+
 
         rank_slice_values = (int(rank_slice.value[0]), int(rank_slice.value[1]))
         if rank_slice_values == (int(rank_slice.start), int(rank_slice.end)):
