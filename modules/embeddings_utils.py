@@ -13,7 +13,7 @@ import numpy as np
 from scipy.spatial.distance import cdist
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
-
+from umap import UMAP
 
 def low_dimensional_projection(embeddings, mode="explicit", metric="cosine",
                                axes_vectors=None, n_axes=2, **kwargs):
@@ -46,6 +46,8 @@ def low_dimensional_projection(embeddings, mode="explicit", metric="cosine",
         return _tsne_projection(embeddings, metric, n_axes, **kwargs)
     elif mode == "pca":
         return _pca_projection(embeddings, n_axes, **kwargs)
+    elif mode == "umap": 
+        return _umap_projection(embeddings, n_axes, **kwargs)
     else:
         raise Exception("invalid embedding projection_mode")
 
@@ -112,6 +114,17 @@ def _pca_projection(embeddings, n_axes, **kwargs):
     # this guy may me cached for efficiency, that's why I don;t do fit_transofrm
     pca.fit(embeddings_matrix)
     projected_matrix = pca.transform(embeddings_matrix)
+    projected_emebddings = {embedding_id: projected_matrix[i, :] for
+                            i, embedding_id in
+                            enumerate(embeddings)}
+    return projected_emebddings
+
+def _umap_projection(embeddings, n_axes, **kwargs):
+    embeddings_matrix = np.stack(embeddings.values())
+    umap = UMAP()
+
+    umap.fit(embeddings_matrix)
+    projected_matrix = umap.transform(embeddings_matrix)
     projected_emebddings = {embedding_id: projected_matrix[i, :] for
                             i, embedding_id in
                             enumerate(embeddings)}
