@@ -52,12 +52,17 @@ pip install -r requirements.txt
 ```
 
 ## Download example data
-In order to replicate the visualizations in our paper, you can download the files in:
-```
-https://drive.google.com/open?id=19EYhNu1Q-tRMKrGd05VF9nRVVbKEM-u3
-```
-and place the four files in `data` folder.
-The Google Drive folder contains the Gigaword+Wikipedia and Twitter embeddings trained with [GloVe](https://nlp.stanford.edu/projects/glove/), plus some metadata we obtained by the automatic script in `modules/generate_metadata.py`.
+In order to replicate the visualizations in our paper, you can download the GloVe embeddings for Wikipedia + Gigaword and twitter from the [GloVe](https://nlp.stanford.edu/projects/glove/) website.
+In the paper we used 50 dimensional embeddings, but feel free to experiment with embeddings with more dimensions.
+The two files you'll need specifically are:
+
+- http://nlp.stanford.edu/data/glove.6B.zip
+- http://nlp.stanford.edu/data/glove.twitter.27B.zip
+
+After you unzipped them, create a `data` folder and copy `glove.6B.50d.txt` and `glove.twitter.6B.50d.txt` inside it.
+
+In order to obtain the metadata (useful for filtering by part of speech for instance), use the automatic script in `modules/generate_metadata.py`. If you are uncertain about how to use it, the input format is the same of the main scripts as described afterwards, you can learn about the parameters by running `python modules/generate_metadata.py -h`.
+If you placed the correct files in the data directory, after you run `generate_metadata` you'll find two additional JSON files in the `data` directory containing metadata for both sets of embeddings.
 
 
 ## Run
